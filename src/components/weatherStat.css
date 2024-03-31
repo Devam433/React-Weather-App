@@ -1,0 +1,143 @@
+.weather-stat-container{
+    width: 1000px;
+    padding: 32px 12px 4px;
+    margin: 0px auto;
+    /* border: 2px solid; */
+}
+.current-main-weather-stat-container{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.weather-stat-temperature-container{
+    width: 360px;
+    height: 220px;
+    /* border: 1px solid; */
+}
+.weather-stat-temperature-container .temperature{
+    font-size: 7rem;
+    font-weight: bold;
+    display: flex;
+}
+.weather-stat-additionaldata-container{
+    width: 400px;
+    /* border: 1px solid; */
+    height: 220px;
+    display: flex;
+    /* justify-content: space-between; */
+    row-gap: 45px;
+    flex-direction: column;
+}
+
+.min-temperature-container{
+    display: flex;
+    align-items: center;
+    width: 200px;
+    height: 120px;
+    justify-content: flex-end;
+    column-gap: 5px;
+}
+.min-temperature-container .minTemp-img{
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgb(234, 234, 234);
+    border-radius: 100%;
+}
+.min-temperature-container .min-temperature-data{
+    display: flex;
+    flex-direction: column;
+}
+/*  */
+.max-temperature-container{
+    display: flex;
+    align-items: center;
+    width: 200px;
+    height: 120px;
+    justify-content: flex-end;
+    column-gap: 5px;
+}
+.max-temperature-container .maxTemp-img{
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgb(234, 234, 234);
+    border-radius: 100%;
+}
+.max-temperature-container .max-temperature-data{
+    display: flex;
+    flex-direction: column;
+}
+/*  */
+
+.weather-dashboard-container{
+    width: 100%;
+    /* border: 1px solid red; */
+    padding-top: 10px;
+    flex-wrap: wrap;
+    gap: 29px;
+    display: flex;
+    padding-left: 2px;
+}
+.wearther-dash-card-container{
+    width: 226px;
+    /* border: 1px solid green; */
+}
+.wearther-dash-card{
+    display: flex;
+    align-items: center;
+    width: 226px;
+    height: 50px;
+    padding: 16px 0;
+}
+.weather-dash-img{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 24px;
+    height: 24px;
+    padding: 14px;
+}
+.weather-dash-data{
+    display: flex;
+    flex-direction: column;
+    width: 168px;
+    padding-left: 5px;
+}
+/* hour card */
+.hourly-weather-container{
+    width: 100%;
+    /* border: 1px solid; */
+    margin-top: 10px;
+    display: flex;
+    gap: 10px;
+}
+
+.hour-card-container{
+    width: 115px;
+    height: 156px;
+}
+.hour-card{
+    display: flex;
+    justify-content: center;
+    padding: 16px 0;
+    background-color: rgb(238 238 238);
+    border-radius: 15px;
+}
+.hour-card-data{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.hour-card-img{
+    width: 68px;
+    height: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

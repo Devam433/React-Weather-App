@@ -1,6 +1,6 @@
 import axios from "axios"
 //26.655041,92.772453 tezpur coords
-const APIKEY='YNWMKP6R55KU3E4VNFQ5M38AY';
+const APIKEY='';
 
 async function getGeolocation() {
     try{

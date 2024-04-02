@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import "./navbar.css"
 import "./weatherStat.css"
 import sunrisePng from "../assets/sunrise.png"
@@ -9,9 +9,13 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowDown, faArrowUp } from "@fortawesome/free-solid-svg-icons"
 import { WeatherDashboardCard } from './WeatherDashboardCard';
 import { HourCrad } from './HourCrad';
+import getCurrentWeatherData from "../API/WeatherVisualCrossing"
 
 export const WeatherStat = () => {
-  const dashArr=[
+
+  const [weatherData,setWeatherData] = useState({});
+  console.log(weatherData.locations)
+const dashArr=[
   {tag:'Chances of rain',value:'30%',img:{}},
   {tag:'Wind',value:'30%',img:{}},
   {tag:'Sunrise',value:'30%',img:{sunrisePng}},
@@ -21,8 +25,22 @@ export const WeatherStat = () => {
   {tag:'Humidity',value:'30%',img:{}},
   {tag:'Gust',value:'30%',img:{windPng}}
 ];
+const hourArr=[{time:'5 AM',value:'26'},{time:'6 AM',value:'26'},{time:'7 AM',value:'26'},{time:'8 AM',value:'26'},{time:'9 AM',value:'27'},{time:'10 AM',value:'27'},{time:'11 Am',value:'27'},{time:'12 PM',value:'28'}]
 
-  const hourArr=[{time:'5 AM',value:'26'},{time:'6 AM',value:'26'},{time:'7 AM',value:'26'},{time:'8 AM',value:'26'},{time:'9 AM',value:'27'},{time:'10 AM',value:'27'},{time:'11 Am',value:'27'},{time:'12 PM',value:'28'}]
+  async function getWeatherData() {
+    try{
+      const API = await getCurrentWeatherData();
+      const response = await API.get();
+      setWeatherData(response.data);
+    }catch(error){
+      console.log(error)
+    }
+  }
+
+  useEffect(()=>{
+    getWeatherData();
+  },[])
+
   return (
     <div className='weather-stat-container'>
         <main>
@@ -55,7 +73,7 @@ export const WeatherStat = () => {
                   </div>
                 </div>
                   
-                  <div style={{alignSelf:'end',fontSize:'20px'}}><p style={{display:'flex',color:'orange'}}>Feels like 25<span style={{fontSize: '20px',fontWeight: '500',WebkitWritingMode:"vertical-rl",fontSize:'13px', width:'15px'}}>o</span></p></div>
+                <div style={{alignSelf:'end',fontSize:'20px'}}><p style={{display:'flex',color:'orange'}}>Feels like 25<span style={{fontSize: '20px',fontWeight: '500',WebkitWritingMode:"vertical-rl",fontSize:'13px', width:'15px'}}>o</span></p></div>
                 </div>
             </div>
             <div className='weather-dashboard-container'>

@@ -10,7 +10,7 @@ export const WeatherDashboardCard = ({weatherTag,weatherValue,img}) => {
             </div>
             <div className='weather-dash-data'>
                 <div className='weather-tag' style={{color: 'rgb(99, 119, 119)'}}><p>{weatherTag}</p></div>
-                <div className='weather-value' style={{fontSize:'20px',fontWeight:'700'}}><p>{weatherValue}</p></div>
+                <div className='weather-value' style={{fontSize:'20px',fontWeight:'600', color:'#514a4a'}}><p>{weatherValue}</p></div>
             </div>
         </div>
     </div>

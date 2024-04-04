@@ -4,41 +4,77 @@ import "./weatherStat.css"
 import sunrisePng from "../assets/sunrise.png"
 import sunsetPng from "../assets/sunSet.png"
 import windPng from "../assets/wind.png"
-import sunPng from "../assets/sun.png"
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowDown, faArrowUp } from "@fortawesome/free-solid-svg-icons"
-import { WeatherDashboardCard } from './WeatherDashboardCard';
-import { HourCrad } from './HourCrad';
+import { WeatherDashboardCard } from './WeatherDashboardCard'
+import { HourCrad } from './HourCrad'
 import getCurrentWeatherData from "../API/WeatherVisualCrossing"
+import icon from './WeatherIcon'
 
 export const WeatherStat = () => {
+  const [weatherData,setWeatherData] = useState(null);
+  const [currentWeatherData, setCurrentWeatherData] = useState({});
+  console.log(currentWeatherData)
 
-  const [weatherData,setWeatherData] = useState({});
-  console.log(weatherData.locations)
-const dashArr=[
-  {tag:'Chances of rain',value:'30%',img:{}},
-  {tag:'Wind',value:'30%',img:{}},
-  {tag:'Sunrise',value:'30%',img:{sunrisePng}},
-  {tag:'Sunset',value:'30%',img:{sunsetPng}},
-  {tag:'UV Index',value:'30%',img:{}},
-  {tag:'Pressure',value:'30%',img:{}},
-  {tag:'Humidity',value:'30%',img:{}},
-  {tag:'Gust',value:'30%',img:{windPng}}
+  function getWeatherIcon (conditions) {
+   return icon[conditions] || 'N/A;'
+  }
+  function getSunriseTime() {
+    if(weatherData) {
+    const locationKey = Object.keys(weatherData.locations)[0];
+    const dateTimeStr = weatherData.locations[locationKey].currentConditions.sunrise;
+    const dateTime = new Date(dateTimeStr)
+    const hours = dateTime.getHours()
+    const minutes = dateTime.getMinutes()
+    return `${hours}:${minutes} ${hours >= 12 ? 'PM' : 'AM'}`;
+    }
+  }
+  function getSunsetTime() {
+    if(weatherData) {
+    const locationKey = Object.keys(weatherData.locations)[0];
+    const dateTimeStr = weatherData.locations[locationKey].currentConditions.sunset;
+    const dateTime = new Date(dateTimeStr)
+    const hours = dateTime.getHours()
+    const minutes = dateTime.getMinutes()
+    return `${hours}:${minutes} ${hours >= 12 ? 'PM' : 'AM'}`;
+    }
+  }
+
+  const dashArr=[
+  {tag:'Chances of rain',value:currentWeatherData.pop || currentWeatherData.pop==0  ? currentWeatherData.pop+' %' : 'fetching...',img:{}},
+  {tag:'Wind',value:currentWeatherData.wspd ? currentWeatherData.wspd+' kph' : 'fetching...',img:{}},
+  {tag:'Sunrise',value:getSunriseTime()??'fetching...',img:{sunrisePng}},
+  {tag:'Sunset',value:getSunsetTime()??'fetching...',img:{sunsetPng}},
+  {tag:'UV Index',value:currentWeatherData.uvindex ?? 'fetching...',img:{}},
+  {tag:'Sea Level Pressure',value:currentWeatherData.sealevelpressure ? currentWeatherData.sealevelpressure+' mb' : 'fetching...',img:{}},
+  {tag:'Humidity',value:currentWeatherData.humidity ?? 'fetching...',img:{}},
+  {tag:'Gust',value:currentWeatherData.wgust ?? 'fetching...',img:{windPng}}
 ];
-const hourArr=[{time:'5 AM',value:'26'},{time:'6 AM',value:'26'},{time:'7 AM',value:'26'},{time:'8 AM',value:'26'},{time:'9 AM',value:'27'},{time:'10 AM',value:'27'},{time:'11 Am',value:'27'},{time:'12 PM',value:'28'}]
 
-  async function getWeatherData() {
+// const hourArr=[{time:'5 AM',value:'26'},{time:'6 AM',value:'26'},{time:'7 AM',value:'26'},{time:'8 AM',value:'26'},{time:'9 AM',value:'27'},{time:'10 AM',value:'27'},{time:'11 Am',value:'27'},{time:'12 PM',value:'28'}]
+
+  async function getAllWeatherData() {
     try{
-      const API = await getCurrentWeatherData();
-      const response = await API.get();
-      setWeatherData(response.data);
-    }catch(error){
-      console.log(error)
+      console.log('inside getAllWeatherData')
+      const openWeatherApi = await getCurrentWeatherData();
+      const response = await openWeatherApi.get();
+      setWeatherData(response.data); 
+    }catch(error) {
+      console.log(error);
     }
   }
 
   useEffect(()=>{
-    getWeatherData();
+    if(weatherData) {
+      console.log(weatherData)
+      const locationKey = Object.keys(weatherData.locations)[0];
+      setCurrentWeatherData(weatherData.locations[locationKey].values[0]);
+    }
+  },[weatherData])
+
+  useEffect(()=>{
+    console.log('useEffectRun.')
+    getAllWeatherData();
   },[])
 
   return (
@@ -46,12 +82,12 @@ const hourArr=[{time:'5 AM',value:'26'},{time:'6 AM',value:'26'},{time:'7 AM',va
         <main>
             <div className="current-main-weather-stat-container">
                 <div className='weather-stat-img-container' style={{width:'220px',height:'220px'}}>
-                    <img src={sunPng} alt="" style={{width:'165px',padding:'20px'}}/>
+                    <img src={getWeatherIcon(currentWeatherData ? currentWeatherData.conditions : "") ?? ''} alt="" style={{width:'165px',padding:'20px'}}/>
                 </div>
                 <div className='weather-stat-temperature-container'>
                   <div style={{display:'flex', flexDirection:'column'}}>
-                    <p className='temperature'>26<span style={{fontSize: '20px',fontWeight: '500'}}>o</span></p>
-                        <div style={{fontSize:'20px'}}><p>clear skies, possible cyclone</p></div>
+                    <p className='temperature'>{currentWeatherData ? currentWeatherData.temp : ''}<span style={{fontSize: '20px',fontWeight: '500'}}>o</span></p>
+                        <div style={{fontSize:'20px'}}><p>{currentWeatherData ? currentWeatherData.conditions : ""}</p></div>
                   </div>
                         
                 </div>
@@ -61,14 +97,14 @@ const hourArr=[{time:'5 AM',value:'26'},{time:'6 AM',value:'26'},{time:'7 AM',va
                     <div className='minTemp-img'><FontAwesomeIcon icon={faArrowDown} /></div>
                     <div className='min-temperature-data'>
                       <h3 style={{fontSize:'16px', fontWeight:'500'}}>Min</h3>
-                      <h4 style={{fontSize:'40px',fontWeight:'700',display:"flex"}}>20<span style={{fontSize: '20px',fontWeight: '500'}}>o</span></h4>
+                      <h4 style={{fontSize:'40px',fontWeight:'700',display:"flex"}}>{currentWeatherData ? currentWeatherData.maxt : ''}<span style={{fontSize: '20px',fontWeight: '500'}}>o</span></h4>
                     </div>
                   </div>
                   <div className='max-temperature-container'>
                       <div className='maxTemp-img'><FontAwesomeIcon icon={faArrowUp} /></div>
                       <div className='max-temperature-data'>
                         <h3 style={{fontSize:'16px', fontWeight:'500'}}>Min</h3>
-                        <h4 style={{fontSize:'40px',fontWeight:'700',display:'flex'}}>20<span style={{fontSize: '20px',fontWeight: '500'}}>o</span></h4>
+                        <h4 style={{fontSize:'40px',fontWeight:'700',display:'flex'}}>{currentWeatherData ? currentWeatherData.mint : ''}<span style={{fontSize: '20px',fontWeight: '500'}}>o</span></h4>
                     </div>
                   </div>
                 </div>
@@ -82,11 +118,11 @@ const hourArr=[{time:'5 AM',value:'26'},{time:'6 AM',value:'26'},{time:'7 AM',va
               })}
             </div>
             <div className='hourly-weather-container'>
-              {
+              {/* {
                 hourArr.map((obj)=>{
                   return <HourCrad key={crypto.randomUUID()} time={obj.time} value={obj.value} />
                 })
-              }
+              } */}
             </div>
         </main>
     </div>

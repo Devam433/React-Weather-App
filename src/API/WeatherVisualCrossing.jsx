@@ -1,6 +1,6 @@
 import axios from "axios"
 //26.655041,92.772453 tezpur coords
-const APIKEY='';
+const APIKEY='YNWMKP6R55KU3E4VNFQ5M38AY';
 
 async function getGeolocation() {
     try{
@@ -12,6 +12,7 @@ async function getGeolocation() {
         console.log('Failed getting geolocation',err);
     }
 }
+
 async function getCurrentWeatherData() {
     try {
         const position = await getGeolocation();
@@ -19,8 +20,8 @@ async function getCurrentWeatherData() {
         const openWeatherApi = axios.create({
             baseURL:`https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/weatherdata/forecast?locations=${latitude},${longitude}`,
             params: {
-                aggregateHours:'24',
-                key:APIKEY,
+                aggregateHours: '24',
+                key: APIKEY,
                 contentType: 'json',
                 unitGroup: 'metric'
             }

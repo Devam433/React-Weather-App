@@ -10,22 +10,25 @@ import { WeatherDashboardCard } from './WeatherDashboardCard'
 import { HourCrad } from './HourCrad'
 import getCurrentWeatherData from "../API/WeatherVisualCrossing"
 import icon from './WeatherIcon'
-
+import getGeocodingData from '../Utils/geocoding'   
+     
+       
 export const WeatherStat = () => {
   const [weatherData,setWeatherData] = useState(null);
   const [currentWeatherData, setCurrentWeatherData] = useState({});
+  const [currentAddress,setCurrentAddress] = useState(null);
   console.log(currentWeatherData)
 
   function getWeatherIcon (conditions) {
-   return icon[conditions] || 'N/A;'
+   return icon[conditions] || 'N/A'
   }
   function getSunriseTime() {
     if(weatherData) {
     const locationKey = Object.keys(weatherData.locations)[0];
     const dateTimeStr = weatherData.locations[locationKey].currentConditions.sunrise;
-    const dateTime = new Date(dateTimeStr)
-    const hours = dateTime.getHours()
-    const minutes = dateTime.getMinutes()
+    const dateTime = new Date(dateTimeStr);
+    const hours = dateTime.getHours();
+    const minutes = dateTime.getMinutes();
     return `${hours}:${minutes} ${hours >= 12 ? 'PM' : 'AM'}`;
     }
   }
@@ -33,9 +36,9 @@ export const WeatherStat = () => {
     if(weatherData) {
     const locationKey = Object.keys(weatherData.locations)[0];
     const dateTimeStr = weatherData.locations[locationKey].currentConditions.sunset;
-    const dateTime = new Date(dateTimeStr)
-    const hours = dateTime.getHours()
-    const minutes = dateTime.getMinutes()
+    const dateTime = new Date(dateTimeStr);
+    const hours = dateTime.getHours();
+    const minutes = dateTime.getMinutes();
     return `${hours}:${minutes} ${hours >= 12 ? 'PM' : 'AM'}`;
     }
   }
@@ -58,7 +61,11 @@ export const WeatherStat = () => {
       console.log('inside getAllWeatherData')
       const openWeatherApi = await getCurrentWeatherData();
       const response = await openWeatherApi.get();
-      setWeatherData(response.data); 
+      setWeatherData(response.data);
+      const openStreetMap = await getGeocodingData();
+      console.log('im here')
+      const openstreetmapResponse = await openStreetMap.get();
+      console.log(openstreetmapResponse.data);
     }catch(error) {
       console.log(error);
     }
@@ -73,7 +80,7 @@ export const WeatherStat = () => {
   },[weatherData])
 
   useEffect(()=>{
-    console.log('useEffectRun.')
+    console.log('useEffectRun.');
     getAllWeatherData();
   },[])
 

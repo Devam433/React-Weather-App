@@ -1,17 +1,7 @@
 import axios from "axios"
+import getGeolocation from "../Utils/geolocation";
 //26.655041,92.772453 tezpur coords
 const APIKEY='YNWMKP6R55KU3E4VNFQ5M38AY';
-
-async function getGeolocation() {
-    try{
-        const position = new Promise((resolve,reject) => {
-            navigator.geolocation.getCurrentPosition(resolve,reject);
-        })
-        return position;
-    } catch(err) {
-        console.log('Failed getting geolocation',err);
-    }
-}
 
 async function getCurrentWeatherData() {
     try {

@@ -22,4 +22,5 @@ async function getCurrentWeatherData() {
     }
 }
 
+
 export default getCurrentWeatherData;

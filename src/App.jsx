@@ -13,7 +13,6 @@ const App = () => {
   const [currentWeatherData, setCurrentWeatherData] = useState({});
   const [currentAddress,setCurrentAddress] = useState(null);;
 
-  console.log(currentAddress)
 
   function getWeatherIcon (conditions) {
    return icon[conditions] || 'N/A'

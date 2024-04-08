@@ -21,6 +21,7 @@ export const Navbar = ({setWeatherData,setCurrentWeatherData}) => {
   useEffect(()=>{
     console.log('Search useeffect')
     async function fetchdata() {
+      console.log('api call search')
       try{
         const visualCrossingAPI = await getSearchedWeatherData();
         const response = await visualCrossingAPI.get('',{
@@ -34,9 +35,12 @@ export const Navbar = ({setWeatherData,setCurrentWeatherData}) => {
         console.log(error);
       }
     }
-    if(SearchData!=='') {
-      fetchdata();
-    }
+    const timer = setTimeout(()=>{
+      if(SearchData!=='') {
+        fetchdata();
+      }
+    },1000)
+    return ()=>clearTimeout(timer);
   },[SearchData])
   return (
     <div className='header--conatiner'>

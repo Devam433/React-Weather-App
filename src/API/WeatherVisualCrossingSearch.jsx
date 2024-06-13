@@ -1,7 +1,8 @@
 import axios from "axios"
 
-const APIKEY='YNWMKP6R55KU3E4VNFQ5M38AY';
-async function getSearchedWeatherData() {
+const APIKEY = import.meta.env.VITE_API_KEY;
+
+function getSearchedWeatherData() {
     try{
         const visualCrossingAPI = axios.create({
             baseURL:'https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/weatherdata/forecast',

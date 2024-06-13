@@ -21,7 +21,7 @@ export const Navbar = ({setWeatherData,setCurrentWeatherData}) => {
   useEffect(()=>{
     async function fetchdata() {
       try{
-        const visualCrossingAPI = await getSearchedWeatherData();
+        const visualCrossingAPI = getSearchedWeatherData();
         const response = await visualCrossingAPI.get('',{
           params:{
             locations:SearchData,

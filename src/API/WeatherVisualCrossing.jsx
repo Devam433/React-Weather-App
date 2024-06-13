@@ -1,7 +1,7 @@
 import axios from "axios"
 import getGeolocation from "../Utils/geolocation";
-//26.655041,92.772453 tezpur coords
-const APIKEY='YNWMKP6R55KU3E4VNFQ5M38AY';
+
+const APIKEY = import.meta.env.VITE_API_KEY;
 
 async function getCurrentWeatherData() {
     try {

@@ -77,7 +77,7 @@ async function getAddress(locationKey) {
                   <div className='min-temperature-container'>
                     <div className='minTemp-img'><FontAwesomeIcon icon={faArrowDown} /></div>
                     <div className='min-temperature-data'>
-                      <h3 style={{fontSize:'16px', fontWeight:'500'}}>Min</h3>
+                      <h3 style={{fontSize:'16px', fontWeight:'500'}}>Max</h3>
                       <h4 style={{fontSize:'40px',fontWeight:'700',display:"flex"}}>{currentWeatherData ? currentWeatherData.maxt : ''}<span style={{fontSize: '20px',fontWeight: '500'}}>o</span></h4>
                     </div>
                   </div>
